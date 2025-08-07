@@ -1,0 +1,28 @@
+# .github/workflows/reusable-maven.yml
+name: Maven Build Template
+
+on:
+  workflow_call:
+    inputs:
+      java-version:
+        required: true
+        type: string
+      goals:
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: ${{ inputs.java-version }}
+
+      - name: Build with Maven
+        run: mvn ${{ inputs.goals }}
